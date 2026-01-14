@@ -21,25 +21,24 @@ tests:
 		if [ -f "$$test_file" ]; then \
 			found=1; \
 			name=$$(basename $$test_file .c); \
-			echo "--- [TESTE] Compilando e rodando: $$name ---"; \
+			echo "--- [TEST] Compiling and running: $$name ---"; \
 			$(CC) $(CFLAGS) $$test_file $(CORE_SRC) -o $(TEST_BUILD_DIR)/$$name $(LDFLAGS) || exit 1; \
 			./$(TEST_BUILD_DIR)/$$name || exit 1; \
 			echo ""; \
 		fi \
 	done; \
 	if [ $$found -eq 0 ]; then \
-		echo "Nenhum teste encontrado em tests/*.c"; \
+		echo "No tests found in tests/*.c"; \
 	fi
-
 
 test:
 	@mkdir -p $(TEST_BUILD_DIR)
 	@if [ -z "$(t)" ]; then \
-		echo "ERRO: Voce precisa especificar qual teste rodar."; \
-		echo "Uso: make test t=memory-test.c"; \
+		echo "ERROR: You need to specify which test to run."; \
+		echo "Usage: make test t=memory-test.c"; \
 		exit 1; \
 	fi
-	@echo "--- [SINGLE TEST] Rodando: $(t) ---"
+	@echo "--- [SINGLE TEST] Running: $(t) ---"
 	$(CC) $(CFLAGS) tests/$(t) $(CORE_SRC) -o $(TEST_BUILD_DIR)/single_test $(LDFLAGS)
 	./$(TEST_BUILD_DIR)/single_test
 
